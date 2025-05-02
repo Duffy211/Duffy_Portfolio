@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home</title>
+
+  <!-- Google Fonts - Jaro -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&display=swap" rel="stylesheet"/>
+
+  <style>
+    body {
+      font-family: 'Jaro', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      background-color: #FFF9ED;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #FFE9B9;
+      padding: 1rem 2rem;
+      position: relative;
+    }
+
+    .navbar .logo {
+      color: black;
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-decoration: none;
+      flex: 1;
+      text-align: left;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      color: black;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    .nav-links a:hover {
+      background-color: #ffd89b;
+      border-radius: 5px;
+    }
+
+    .nav-links a.active {
+      background-color: #F89821;
+      box-shadow: inset 0 0 0 2px #F89821;
+      border-radius: 5px;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      height: 100%;
+      width: 300px;
+      background-color: #FFE9B9;
+      padding: 2rem 1rem;
+      flex-direction: column;
+      gap: 0.8rem;
+      z-index: 1000;
+      transition: right 0.5s ease;
+      display: flex;
+    }
+
+    .sidebar.active {
+      right: 0;
+    }
+
+    .sidebar a {
+      color: black;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      margin-top: 0.3rem;
+      text-align: right;
+      transition: background-color 0.3s;
+      border: 2px solid #FFD270;
+      border-radius: 5px;
+    }
+
+    .sidebar a:first-of-type {
+      margin-top: 3rem;
+    }
+
+    .sidebar a:hover {
+      background-color: #F89821;
+    }
+
+    .sidebar .hamburger {
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      color: black;
+      cursor: pointer;
+      position: absolute;
+      top: 1.2rem;
+      right: 1.5rem;
+    }
+
+    .navbar .hamburger {
+      display: none;
+      font-size: 1.5rem;
+      color: black;
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      right: 2rem;
+      transform: translateY(-50%);
+    }
+
+    .welcome-title {
+      text-align: center;
+      font-size: 96px;
+      font-weight: lighter;
+      margin-bottom: 0;
+      line-height: 1;
+      color: #333;
+    }
+
+    .portfolio-subtitle {
+      text-align: center;
+      font-size: 62px;
+      font-weight: normal;
+      margin-top: 0;
+      line-height: 1;
+      color: #333;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .ask-button {
+      background-color: #04AA6D;
+      color: white;
+      font-size: 24px;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-family: 'Jaro', sans-serif;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .ask-button:hover {
+      background-color: #028a57;
+      transform: scale(1.05);
+    }
+
+    /* Interactive Toggle Button */
+    .interactive-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background-color: #F89821;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      z-index: 999;
+    }
+
+    .interactive-toggle:hover {
+      transform: scale(1.15);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .interactive-toggle svg {
+      width: 28px;
+      height: 28px;
+      stroke: white;
+    }
+
+    .interactive-label {
+      position: fixed;
+      bottom: 47px;
+      right: 90px;
+      background-color: #F89821;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: 'Jaro', sans-serif;
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateY(-50%) translateX(10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      z-index: 998;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .interactive-toggle:hover + .interactive-label {
+      opacity: 1;
+      transform: translateY(-50%) translateX(-10px);
+      visibility: visible;
+    }
+
+    @media (max-width: 768px) {
+      .navbar .nav-links {
+        display: none;
+      }
+
+      .navbar .hamburger {
+        display: block;
+      }
+
+      .welcome-title {
+        font-size: 64px;
+      }
+
+      .portfolio-subtitle {
+        font-size: 42px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="index.html" class="logo">John Duffy</a>
+    <button class="hamburger" onclick="toggleSidebar()">☰</button>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="resume.html">Resume</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebarMenu">
+    <button class="hamburger" onclick="toggleSidebar()">☰</button>
+    <a href="index.html" class="active">Home</a>
+    <a href="about.html">About</a>
+    <a href="projects.html">Projects</a>
+    <a href="resume.html">Resume</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <!-- Hero Text -->
+  <h1 class="welcome-title">Welcome</h1>
+  <h2 class="portfolio-subtitle">To My Portfolio</h2>
+
+  <!-- Ask Me A Question Button -->
+  <div class="button-container">
+    <button class="ask-button" onclick="location.href='contact.html'">Ask Me A Question</button>
+  </div>
+
+  <!-- Interactive Toggle Button + Label -->
+  <div class="interactive-toggle" id="toggleBtn" onclick="handleToggle()">
+    <!-- Default: Eye Off -->
+    <svg id="eyeIcon" viewBox="0 0 24 24" fill="none"
+         xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z" />
+      <circle cx="12" cy="12" r="3" />
+      <line x1="4" y1="4" x2="20" y2="20" />
+    </svg>
+  </div>
+  <div class="interactive-label">Interactive Portfolio View</div>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebarMenu");
+      sidebar.classList.toggle("active");
+    }
+
+    function handleToggle() {
+      const iconContainer = document.getElementById("eyeIcon");
+
+      // Swap icon to regular eye
+      iconContainer.outerHTML = `
+        <svg viewBox="0 0 24 24" fill="none"
+          xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>`;
+
+      setTimeout(() => {
+        window.location.href = "inter.html";
+      }, 200);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact</title>
+
+  <!-- Google Fonts - Jaro -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&display=swap" rel="stylesheet"/>
+
+  <style>
+    body {
+      font-family: 'Jaro', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      background-color: #FFF9ED;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #FFE9B9;
+      padding: 1rem 2rem;
+      position: relative;
+    }
+
+    .navbar .logo {
+      color: black;
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-decoration: none;
+      flex: 1;
+      text-align: left;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      color: black;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    .nav-links a:hover {
+      background-color: #ffd89b;
+      border-radius: 5px;
+    }
+
+    .nav-links a.active {
+      background-color: #F89821;
+      box-shadow: inset 0 0 0 2px #F89821;
+      border-radius: 5px;
+    }
+
+    .navbar .hamburger {
+      display: none;
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      color: black;
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      right: 2rem;
+      transform: translateY(-50%);
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      height: 100%;
+      width: 300px;
+      background-color: #FFE9B9;
+      padding: 2rem 1rem;
+      flex-direction: column;
+      gap: 0.8rem;
+      z-index: 1000;
+      transition: right 0.5s ease;
+      display: flex;
+    }
+
+    .sidebar.active {
+      right: 0;
+    }
+
+    .sidebar a {
+      color: black;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      margin-top: 0.3rem;
+      text-align: right;
+      transition: background-color 0.3s, color 0.3s;
+      border: 2px solid #FFD270;
+      border-radius: 5px;
+    }
+
+    .sidebar a:first-of-type {
+      margin-top: 3rem;
+    }
+
+    .sidebar a:hover {
+      background-color: #F89821;
+    }
+
+    .sidebar .hamburger {
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      color: black;
+      cursor: pointer;
+      position: absolute;
+      top: 1.2rem;
+      right: 1.5rem;
+    }
+
+    .contact-info {
+      max-width: 1100px;
+      margin: 4rem auto 3rem;
+      padding: 0 2rem;
+    }
+
+    .contact-wrapper {
+      max-width: 1100px;
+      margin: 3rem auto;
+      padding: 2rem;
+      background-color: #FFE9B9;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1, h2, h3 {
+      font-size: 36px;
+      color: #333;
+    }
+
+    p {
+      font-size: 18px;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    form input, form textarea {
+      width: 100%;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-family: 'Jaro', Arial, sans-serif;
+    }
+
+    form button {
+      background-color: #F89821;
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'Jaro', Arial, sans-serif;
+    }
+
+    form button:hover {
+      background-color: #e6891d;
+    }
+
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 2rem;
+      background-color: #F89821;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      color: white;
+    }
+
+    /* Interactive Toggle Button */
+    .interactive-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background-color: #F89821;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      z-index: 999;
+    }
+
+    .interactive-toggle:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .interactive-toggle svg {
+      width: 28px;
+      height: 28px;
+      stroke: white;
+    }
+
+    .interactive-label {
+      position: fixed;
+      bottom: 48px;
+      right: 90px;
+      background-color: #F89821;
+      color: white;
+      padding: 6px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: 'Jaro', sans-serif;
+      opacity: 0;
+      transform: translateY(-50%) translateX(10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      z-index: 998;
+      visibility: hidden;
+    }
+
+    .interactive-toggle:hover + .interactive-label {
+      opacity: 1;
+      transform: translateY(-50%) translateX(-10px);
+      visibility: visible;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .navbar .hamburger {
+        display: block;
+      }
+
+      h1, h2 {
+        font-size: 28px;
+      }
+
+      .contact-wrapper {
+        margin: 2rem 1rem;
+        padding: 1.5rem;
+      }
+    }
+  </style>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebarMenu");
+      sidebar.classList.toggle("active");
+    }
+
+    function showPopup(event) {
+      event.preventDefault();
+      document.getElementById('popup').style.display = 'block';
+      setTimeout(() => {
+        document.getElementById('popup').style.display = 'none';
+      }, 3000);
+      event.target.reset();
+    }
+
+    function handleToggle() {
+      const icon = document.getElementById("eyeIcon");
+      icon.outerHTML = `
+        <svg viewBox="0 0 24 24" fill="none"
+          xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>`;
+      setTimeout(() => {
+        window.location.href = "inter.html";
+      }, 300);
+    }
+  </script>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="logo">John Duffy</a>
+    <button class="hamburger" onclick="toggleSidebar()">☰</button>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="resume.html">Resume</a>
+      <a href="contact.html" class="active">Contact</a>
+    </div>
+  </nav>
+
+  <div class="sidebar" id="sidebarMenu">
+    <button class="hamburger" onclick="toggleSidebar()">☰</button>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="projects.html">Projects</a>
+    <a href="resume.html">Resume</a>
+    <a href="contact.html" class="active">Contact</a>
+  </div>
+
+  <div class="contact-info">
+    <h2>John Duffy</h2>
+    <p>For a closer look at my work or to discuss a potential project, feel free to reach out:</p>
+    <h3>Phone Number</h3>
+    <p>(551)-444-2317</p>
+    <h3>Email</h3>
+    <p>jpduffy21@gmail.com</p>
+  </div>
+
+  <div class="contact-wrapper">
+    <h1>Contact Me</h1>
+    <p>Feel free to reach out for collaborations, projects, or any inquiries.</p>
+    <form action="https://formsubmit.co/duffyportfolio21@gmail.com" method="POST" onsubmit="showPopup(event)">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
+
+  <div id="popup" class="popup">
+    Thank you! Your message has been sent.
+  </div>
+
+  <!-- Interactive Toggle Button -->
+  <div class="interactive-toggle" onclick="handleToggle()">
+    <svg id="eyeIcon" viewBox="0 0 24 24" fill="none"
+         xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z" />
+      <circle cx="12" cy="12" r="3" />
+      <line x1="4" y1="4" x2="20" y2="20" />
+    </svg>
+  </div>
+  <div class="interactive-label">Interactive Portfolio View</div>
+</body>
+</html>
